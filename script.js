@@ -78,8 +78,8 @@ function startFlashing() {
 
   // Alternative Method:
   if (isFlashing == true) {
-    return
-  } else{
+    return;
+  } else {
     isFlashing = true;
     Flash();
   }
