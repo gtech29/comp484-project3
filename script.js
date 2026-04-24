@@ -9,6 +9,7 @@ const mainTitle = document.querySelector("#main-title");
 const toggleButton = document.getElementById("toggle-button");
 const statusOutput = document.querySelector("#status-output");
 const timerButton = document.getElementById("timer-button");
+const endTimerButton = document.getElementById("endtimer-button");
 const controlPanel = document.getElementById("control-panel");
 const itemList = document.getElementById("item-list");
 
@@ -24,9 +25,15 @@ toggleButton.setAttribute("data-action", "status-toggle");
 // --- Task 9: Looping and Applying Changes ---
 function highlightListItems() {
   const items = document.querySelectorAll("li");
-  items.forEach(function (item) {
-    item.style.color = "blue";
-  });
+  // Original method
+  // items.forEach(function (item) {
+  //   item.style.color = "blue";
+  // });
+
+  // alternative method:
+  for (let listItem of items) {
+    listItem.setAttribute("style", "color: blue");
+  }
 }
 
 highlightListItems();
@@ -61,16 +68,37 @@ toggleButton.addEventListener("click", toggleStatus);
 
 /* ======================================= */
 // --- Task 10: Timed Animation ---
+let isFlashing = false;
+
 function startFlashing() {
-  intervalId = setInterval(function () {
+  // Original Method:
+  // intervalId = setInterval(function () {
+  //   controlPanel.classList.toggle("hidden");
+  // }, 500);
+
+  // Alternative Method:
+  if (isFlashing == true) {
+    return
+  } else{
+    isFlashing = true;
+    Flash();
+  }
+}
+
+function Flash() {
+  setTimeout(() => {
     controlPanel.classList.toggle("hidden");
+    intervalId = setTimeout(Flash, 500);
   }, 500);
 }
 
 function stopFlashing() {
-  clearInterval(intervalId);
+  clearTimeout(intervalId);
+  intervalId = null;
+  isFlashing = false;
   controlPanel.classList.remove("hidden");
 }
 
 timerButton.addEventListener("click", startFlashing);
-timerButton.addEventListener("dblclick", stopFlashing);
+//Extra Credit:
+endTimerButton.addEventListener("click", stopFlashing);
